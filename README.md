@@ -67,6 +67,15 @@ Slutsats
 
 <!-- 
 
+9/12
+
+i felt like i needed to change to fontsize so i researched and researched and finally i found where, as it turns out our tty didnt have a font to begin with so i had to set an existing font to change the font size because it was way to small so all i did was 
+
+sudo vi /etc/vconsole.conf 
+
+and added FONT=sun12x22.psfu.gz
+
+
 
 Choice between .qcow2 and .iso based on requirements:
 
