@@ -219,15 +219,15 @@ Dest. port: 8006
 Log level: info</pre>
 
 - 3.4.5 Block <br>
-The last security group will block everything else. For now, we use a single rule:
+The last security group will block everything else. For now, we use a single rule:<pre>
 Direction: In
 Action: Reject
-Enable: Yes
+Enable: Yes</pre>
 
 This rule works as a catch-all, and must be set as the last firewall rule, wheter it's applied at node level or VM level. We chose reject over drop to get instant feedback (connection refused instead of timeout).
 
-- 3.4.6 Set up Firewall
-Every security group is added to the rocky-base VM. Double-check that the firewall is enabled at every level. If it's disabled at one level, it will also be disabled at every lower level. Proxmox will apply rules automatically. Go into the server shell to confirm that the firewall is running with: <pre>pve-firewall status</pre>
+- 3.4.6 Set up Firewall<br>
+Every security group is added to the rocky-base VM. Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level. Proxmox will apply rules automatically. You can go into the server shell to confirm that the firewall is running with: <pre>pve-firewall status</pre>
 
 The firewall can also be compiled to check for errors with: <pre>pve-firewall compile > firewall.txt</pre>
 
@@ -263,7 +263,6 @@ Målgrupp
 Dokumentstatus (om det finns relevant information om dokumentets status, till exempel utkast, slutfört, etc.). Tex:
 > [!NOTE]  
 > My work here is not finished yet. I need, among other things, to supplement with instructions on how each component should be configured to work together as well supplement with an overview image that explains how the whole thing works.
-
 
 ## Disclaimer
 Ansvarsfriskrivning. Tex:
