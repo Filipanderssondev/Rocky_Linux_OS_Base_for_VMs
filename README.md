@@ -131,7 +131,7 @@ Start the VM and log in.
 
 Swedish keyboard layout:
 <pre>sudo localectl set-x11-keymap se
-sudo localectl set-keymap se</pre>pre>
+sudo localectl set-keymap se</pre>
 
 Change Timezone:
 <pre>sudo timedatectl set-timezone Europe/Stockholm</pre>
