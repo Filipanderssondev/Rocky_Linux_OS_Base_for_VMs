@@ -156,12 +156,21 @@ zip
 nmap
 tmux
 
-- 3.3.4 Change console font and size
+- 3.3.4 Change console font and size <br>
 I felt like I needed to change to fontsize so I researched and researched and finally I found where, as it turns out our tty didnt have a font to begin with so I had to set an existing font to change the font size because it was way to small so all i did was:
 
 <pre>sudo vi /etc/vconsole.conf</pre>
 
 and added: <pre>FONT=sun12x22.psfu.gz</pre>
+
+- 3.3.5 Add users <br>
+We added a new user for each of us and placed these in the wheel group:
+<pre>
+	useradd jonatan
+	useradd Filip
+	usermod -aG wheel jonatan
+	usermod -aG wheel Filip
+</pre>
 
 ### 3.4 Firewall Configuration
 There is a firewall at every layer in Proxmox (datacenter > node > virtual machine). At the datacenter level, security groups, aliases and IPsets can be created. A security group is a grouping of rules, which can then be quickly applied to nodes and virtual machines. An IP set groups networks and hosts, which can then be added as source and destination properties for firewall rules. 
@@ -219,7 +228,7 @@ Destination: (Server's IP)
 Dest. port: 8006
 Log level: info</pre>
 
-- 3.4.5 Block <br>
+- 3.4.5 Block all other traffic <br>
 The last security group will block everything else. For now, we use a single rule:<pre>
 Direction: In
 Action: Reject
@@ -234,7 +243,7 @@ The firewall can also be compiled to check for errors with: <pre>pve-firewall co
 
 Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap.
 
-### 3.5 Clean up
+### 3.5 Cleaning up and finnishing
 The VM is almost ready to be copied. One final thing to do is cleaning up temporary and machine-specific files.
 
 - 3.5.1 Clear DNF/YUN cache, metadata and tmp files <br>
