@@ -30,13 +30,13 @@ Second project <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blo
 11. [Conclusion](#conclusion)
 
 ## Introduction
-**Greetings!**
+**Greetings!** <br>
 _...and welcome! This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship on [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi) IT-department at the headquarters in Norrköping. These projects also serve as a set-up guide here on Github for anyone and everyone that wants to follow along!._<br>
 
 **<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>**
 
 ## Goals and Objectives
-This is part of a larger ongoing Infrastructure as Code (IaC) that will use Proxmox as a base, and Rocky Linux as the OS running on each virtual machine. 
+This is part of a larger ongoing Infrastructure as Code (IaC) project that will use Proxmox as a base, and Rocky Linux as the OS running on each virtual machine. 
 The goal of this project is to build a complete IT-environment and gain a deeper understanding of the underlying components and their part in a larger production chain.
 
 ## Method
@@ -298,7 +298,7 @@ rm -f ~/.bash_history
 
 -3.5.4 **Create Template and clones** <br>
 
-Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones with the following names: Management, Surveillance, Application
+Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones with the following names: Management, Monitoring, Application
 
 It is also recommended to use the *Linked Clone* mode, for potential performance gains. 
 
@@ -307,7 +307,7 @@ The clones will be given new VM IDs, and new static IP addresses.
 Running one of the clones for the first time, you could run `df -h` and `free -h` to check the available disk-space and memory.
 
 ## Target Audience
-- This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
+This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
 This repo is also part of a larger project aimed at people interested in learning about IaC, and building such an environment from scratch. 
 
 ## Document Status
@@ -353,4 +353,4 @@ This repo is also part of a larger project aimed at people interested in learnin
 <br>
 
 ## Conclusion
-- The aim of this project was preparing a Rocky Linux install to use as a golden image. We wanted to keep things minimal and 
+The aim of this project was to prepare a Rocky Linux install to use as a golden image. We strived to keep it minimal, yet include a set of binaries that will be useful throughout the project. This project also helped us further explore Proxmox and virtualization, and we have become more familiar with these as a result. 
