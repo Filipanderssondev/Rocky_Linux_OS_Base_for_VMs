@@ -1,5 +1,5 @@
 # Rocky Linux Golden Image
-<img width="400" alt="" src="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Images/Proxmox_on_nuc_smaller.png?raw=true" allign=left><br>
+<img width="400" alt="" src="https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs/blob/main/Images/Proxmox_on_nuc_smaller.png" allign=left><br>
 
 <br>**Authors:** _<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>_<br>
 
