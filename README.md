@@ -1,20 +1,25 @@
-# Title Page
-<img width="100" alt="MyLogo" src="https://github.com/rafaelurrutiasilva/images/blob/main/logos/MyLogo_2.png" align=left><br>
-<br>
-Titel på dokumentet<br>
-Författare<br>
-Publiceringsdatum<br>
+# Rocky Linux Golden Image
+<img width="400" alt="" src="https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs/blob/main/Images/Proxmox_on_nuc_smaller.png" allign=left><br>
 
-<br>
+<br>**Authors:** _<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>_<br>
+
+16-12-2025<br>
+
 
 ## Abstract
-Kort sammanfattning av dokumentet
+Second project <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a> during our internship at **The Swedish Meteorological and Hydrological Institute** [(SMHI)](https://www.smhi.se/en/about-smhi), Preparation of Rocky Linux for golden image cloning. <br>
+<br>
 
 ## Table of Contents
 
 1. [Introduction](#introduction)
 2. [Goals and Objectives](#goals-and-objectives)
 3. [Method](#method)
+   3.1 [Download and verify Rocky Linux](#31-download-and-verify-rocky-linux)<br>
+   3.2 [Create a Rocky Linux VM](#32-create-a-rocky-linux-vm)<br>
+   3.3 [Configure Rocky Linux](#33-configure-rocky-linux)<br>
+   3.4 [Firewall Configuration](#34-firewall-configuration)<br>
+   3.5 [Cleaning up and finnishing](#35-cleaning-up-and-finnishing)<br>
 4. [Target Audience](#target-audience)
 5. [Document Status](#document-status)
 6. [Disclaimer](#disclaimer)
@@ -25,147 +30,168 @@ Kort sammanfattning av dokumentet
 11. [Conclusion](#conclusion)
 
 ## Introduction
-Inledning
-Bakgrund och syfte. Eventuell översiktbild här.
+**Greetings!** <br>
+_...and welcome! This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship on [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi) IT-department at the headquarters in Norrköping. These projects also serve as a set-up guide here on Github for anyone and everyone that wants to follow along!._<br>
+
+**<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>**
 
 ## Goals and Objectives
-Mål och syften
+This is part of a larger ongoing Infrastructure as Code (IaC) project that will use Proxmox as a base, and Rocky Linux as the OS running on each virtual machine. 
+The goal of this project is to build a complete IT-environment and gain a deeper understanding of the underlying components and their part in a larger production chain.
 
 ## Method
 ### 3.1. Download and verify Rocky Linux
 
-- 3.1.1 Download Rocky Linux <br>
+- 3.1.1 **Download Rocky Linux** <br>
+
 We chose the generic cloud image file (.qcow2), since this is optimal for environments like Proxmox, and is easy to make templates from. 
 The current version of Rocky Linux is v10.1 and it's downloaded from the <a href=https://rockylinux.org/download>official site</a>.
 Also download the CHECKSUM file.
 
-Open a terminal and go to the download location: <pre>cd ./Downloads</pre>
+Open a terminal and go to the download location: `cd ./Downloads`
 
-- 3.1.3 Compute the hash <br>
-This can be done with the command:
-<pre>sha256sum Rocky-10-GenericCloud-Base.latest.x86_64.qcow2</pre>
+- 3.1.2 **Compute the hash** <br>
 
-Confirm with: <pre>sha256sum -c CHECKSUM | grep OK</pre>
+This can be done with: `sha256sum Rocky-10-GenericCloud-Base.latest.x86_64.qcow2`
+
+Confirm with: `sha256sum -c CHECKSUM | grep OK`
 
 ### 3.2. Create a Rocky Linux VM
 
-- 3.2.1 Add the cloud image file <br>
-In the Proxmox web-GUI, go to Datacenter > Storage > Local
-Add 'Import' to Content list
+- 3.2.1 **Add the cloud image file** <br>
 
-Then go to Node > Local > Import
+In the Proxmox web-GUI, go to Datacenter > Storage > Local <br>
+Add *Import* to Content list.
+
+Then go to Node > Local > Import <br>
 Upload the cloud image. 
 
-- 3.2.2 Create a new VM <br>
-settings we used:
+- 3.2.2 **Create a new VM** <br>
 
-general
-	Name: rocky-base
-	Add to HA: No
-	Start at boot: No
+Now create a VM by clicking the blue button *Create VM* in the topright corner. 
+
+settings we used:<br>
+
+General: <br>
+	Name: rocky-base <br>
+	Add to HA: No <br>
+	Start at boot: No <br>
 	
-OS: 
-	Type: Linux
-	Version: 6.x - 2.6 Kernel
-	Do not use any media
+OS: <br>
+	Type: Linux <br>
+	Version: 6.x - 2.6 Kernel <br>
+	Do not use any media <br>
 	
-System:
-	Graphic Card: Default
-	Machine: q35
-	BIOS: OVMF (UEFI)
-	Add EFI Disk: Yes
-	EFI Storage: local-lvm
-	Pre-Enroll keys: yes
-	SCSI ontroller: VirtiO SCSI single
+System: <br>
+	Graphic Card: Default <br>
+	Machine: q35 <br>
+	BIOS: OVMF (UEFI) <br>
+	Add EFI Disk: Yes <br>
+	EFI Storage: local-lvm <br>
+	Pre-Enroll keys: yes <br>
+	SCSI ontroller: VirtiO SCSI single <br>
 	
-Disks:
-	No Disks
+Disks: <br>
+	No Disks <br>
 
-CPU:
-	Sockets: 1
-	Cores: 14
-	Type: host
+CPU: <br>
+	Sockets: 1 <br>
+	Cores: 14 <br>
+	Type: host <br>
 
-Memory:
-	Memory (MiB): 12288
-	Ballooning Device: No
-	Allow KSM: Yes
+Memory: <br>
+	Memory (MiB): 4096 <br>
+	Ballooning Device: No <br>
+	Allow KSM: Yes <br>
 
-Network:
-	Bridge: vmbr0
-	Model: VirtIO (paravirtualized)
-	Vlan Tag: No?
-	MAC address: Use the autogenerated address
-	Firewall: No
+Network: <br>
+	Bridge: vmbr0 <br>
+	Model: VirtIO (paravirtualized) <br>
+	Vlan Tag: No <br>
+	MAC address: Use the autogenerated address <br>
+	Firewall: Yes <br>
 
-This settings are preliminary and may be changed.
+These settings are preliminary and may be changed. Our server has an Intel® Core™ i7-12700H Processor with 14 cores, 64GB of RAM and 1TB of storage. Assigning all 14 cores to every VM may cause contention, so we'll monitor this. The lightweight version of Rocky Linux <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>requires about 1GB of RAM</a>, so 4GB should be plenty for a single VM. Hard disk size is set to 10GB by default. The size may be increased later on, and is evaluated on a per-VM basis.
 
-- 3.2.3 Import Hard Disk <br>
-Go to the new VM > Hardware > Add > Import Hard Disk
-Important Storage: local
-Select Image: Rocky-10-GenericCloud-Base.latest.x86_64.qcow2
+
+- 3.2.3 **Import Hard Disk** <br>
+
+Go to the new VM > Hardware > Add > Import Hard Disk <br>
+Important Storage: local <br>
+Select Image: Rocky-10-GenericCloud-Base.latest.x86_64.qcow2 <br>
 Target Storage: local-lvm
 
 Also Add > CloudInit Drive
 
-- 3.2.4 Cloud-init settings <br>
-Go to the Cloud-Init menu for the VM
+- 3.2.4 **Cloud-init settings** <br>
+
+Go to the Cloud-Init menu for the VM <br>
 Choose a username and password
 
-In IP Config (net0):
+In IP Config (net0): <br>
 We set static ip addresses for our VM, but go with whatever works best for you.
 
-Go to the Options menu for the VM
-Change the boot order:
-1. scsi0
-2. ide2
-3. net0
+Go to the Options menu for the VM <br>
+Change the boot order: <br>
+1. scsi0 <br>
+2. ide2 <br>
+3. net0 <br>
 
 Start the VM and log in.
 
 
 ### 3.3 Configure Rocky Linux
 
-- 3.3.1 Keyboard and Timezone <br>
+- 3.3.1 **Keyboard and Timezone** <br>
 
-Swedish keyboard layout:
-<pre>sudo localectl set-x11-keymap se
-sudo localectl set-keymap se</pre>pre>
+Swedish keyboard layout: `sudo localectl set-keymap se`
 
-Change Timezone:
-<pre>sudo timedatectl set-timezone Europe/Stockholm</pre>
+Change Timezone: `sudo timedatectl set-timezone Europe/Stockholm`
 
-- 3.3.2 Update sources <br>
-Before updating, we change our repo sources to use a mirror provided by NSC: mirror.nsc.liu.se (https/433).
-This step is not necessary if you can run yum update / dnf update directly. For our project, it's the prefered domain. 
+- 3.3.2 **Update sources** <br>
 
-In /etc/yum.sources.d, there are a couple of repos that can be changed. We change them with: <pre>vi /etc/yum.repos.d/rocky.repo</pre>
+Before updating, we change our repo sources to use a mirror provided by NSC: *mirror.nsc.liu.se* (https/433).
+This step is not necessary if you can run `yum update` / `dnf update` directly. For our project, it's the prefered domain. 
 
-Comment/remove the lines beginning with mirrorlist, and replace http://dl.rockylinux.org with https://mirror.nsc.liu.se in baseurl. Also remove the comment from the baseurl lines. Save and update. 
+In */etc/yum.sources.d*, there are a couple of repos that can be changed. We change them with: `vi /etc/yum.repos.d/rocky.repo`
 
-- 3.3.3 Install additional programs <br>
-The Rocky Linux cloud image is purposefully minimal. Though there are some programs we will want available for every instance, and will install on the base OS. After running an update, we installed the following:
-bind-utils
-bash-completion
-tcpdump
-traceroute
-python3-pip
-unzip
-zip
-nmap
-tmux
+Comment/remove the lines beginning with mirrorlist, and replace *http://dl.rockylinux.org* with *https://mirror.nsc.liu.se* in baseurl. Also remove the comment from the baseurl lines. Save and update. 
 
-- 3.3.4 Change console font and size
-I felt like I needed to change to fontsize so I researched and researched and finally I found where, as it turns out our tty didnt have a font to begin with so I had to set an existing font to change the font size because it was way to small so all i did was:
+- 3.3.3 **Install additional programs** <br>
 
-<pre>sudo vi /etc/vconsole.conf</pre>
+The Rocky Linux cloud image is purposefully minimal. Though there are some programs we'll want available for every clone, and will install here. After running an update, we installed the following: <br>
+bind-utils <br>
+bash-completion <br>
+tcpdump <br>
+traceroute <br>
+python3-pip <br>
+unzip <br>
+zip <br>
+nmap <br>
+tmux <br>
 
-and added: <pre>FONT=sun12x22.psfu.gz</pre>
+- 3.3.4 **Change console font and size** <br>
+
+I felt like I needed to change to fontsize so I researched and researched and finally I found where, as it turns out our tty didnt have a font to begin with so I had to set an existing font to change the font size because it was way to small so all i did was: `sudo vi /etc/vconsole.conf`
+
+and added: `FONT=sun12x22.psfu.gz`
+
+- 3.3.5 **Add users** <br>
+
+We added a new user for each of us and placed these in the wheel group:
+```bash
+	useradd jonatan
+	useradd Filip
+	usermod -aG wheel jonatan
+	usermod -aG wheel Filip
+```
 
 ### 3.4 Firewall Configuration
+
 There is a firewall at every layer in Proxmox (datacenter > node > virtual machine). At the datacenter level, security groups, aliases and IPsets can be created. A security group is a grouping of rules, which can then be quickly applied to nodes and virtual machines. An IP set groups networks and hosts, which can then be added as source and destination properties for firewall rules. 
 
-- 3.4.1 SSH <br>
+- 3.4.1 **SSH** <br>
+
 Go to Datacenter > Firewall > Security Group
 Create a new security group with the following configuration:<pre>
 Direction: in
@@ -176,23 +202,25 @@ Log level: info</pre>
 
 Specifications for macros can be found <a href=https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc>here</a>.
 
-Go to Datacenter > Firewall > IPSet
-Create a new IP set, call it something like management.
+Go to Datacenter > Firewall > IPSet  <br>
+Create a new IP set, call it something like management.  <br>
 Next, create an IP range that covers your management devices.
 
 Now you can go back to the SSH rule and add the management IPSet as source.
 
-- 3.4.2 ICMP <br>
-Next, we'll make a new security group for ICMP. There is no macro for ICMP, so it must be selected in the protocol field:
+- 3.4.2 **ICMP** <br>
+
+Next, we'll make a new security group for ICMP. There is no macro for ICMP, so it must be selected in the protocol field:<pre>
 Direction: in
 Action: ACCEPT
 Enable: Yes
 Protocol: icmp
-Log level: info
+Log level: info</pre>
 
-ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. We''ll also add the same rules for IPv6-ICMP.
+ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. We'll also add the same rules for IPv6-ICMP.
 
-- 3.4.3 DNS <br>
+- 3.4.3 **DNS** <br>
+
 We'll make a new IP set that points to our organisation's DNS server. We also create a security group for DNS with the following rule:<pre>
 Direction: out
 Action: ACCEPT
@@ -201,7 +229,8 @@ Macro: DNS
 Destination +dns
 Log level: info</pre>
 
-- 3.4.4 Web <br>
+- 3.4.4 **Web** <br>
+
 We create a new security group for web, and add a new rule:<pre>
 Direction: in
 Action: ACCEPT
@@ -218,7 +247,8 @@ Destination: (Server's IP)
 Dest. port: 8006
 Log level: info</pre>
 
-- 3.4.5 Block <br>
+- 3.4.5 **Block all other traffic** <br>
+
 The last security group will block everything else. For now, we use a single rule:<pre>
 Direction: In
 Action: Reject
@@ -226,61 +256,101 @@ Enable: Yes</pre>
 
 This rule works as a catch-all, and must be set as the last firewall rule, wheter it's applied at node level or VM level. We chose reject over drop to get instant feedback (connection refused instead of timeout).
 
-- 3.4.6 Set up Firewall<br>
-Every security group is added to the rocky-base VM. Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level. Proxmox will apply rules automatically. You can go into the server shell to confirm that the firewall is running with: <pre>pve-firewall status</pre>
+- 3.4.6 **Set up Firewall**<br>
 
-The firewall can also be compiled to check for errors with: <pre>pve-firewall compile > firewall.txt</pre>
+Every security group is added to the rocky-base VM. Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level. Proxmox will apply rules automatically. You can go into the server shell to confirm that the firewall is running with: `pve-firewall status`
+
+The firewall can also be compiled to check for errors with: `pve-firewall compile > firewall.txt`
 
 Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap.
 
-### 3.5 Clean up
+### 3.5 Cleaning up and finnishing
+
 The VM is almost ready to be copied. One final thing to do is cleaning up temporary and machine-specific files.
 
-- 3.5.1 Clear DNF/YUN cache, metadata and tmp files
-Package manager leftovers can be cleared with one simple command:
-<pre>sudo dnf clean all</pre>
+- 3.5.1 **Clear DNF/YUN cache, metadata and tmp files** <br>
 
-- 3.5.2 Temporary files
-Remove any files left in temporary folders: <pre>
+Package-manager leftovers can be cleared with this command: `sudo dnf clean all`
+
+- 3.5.2 **Temporary files** <br>
+
+Remove any files left in temporary folders:
+```bash
 sudo rm -rf /tmp/*
 sudo rm -rf /var/tmp/*
-</pre>
+```
 
-- 3.5.3 Machine ID 
-Machine-id is autogenerated on installation/boot. It's used by systemd, d-bus, networkmanager, and sometimes licenses and UUID-based apps: <pre>
+- 3.5.3 **Machine ID** <br>
+
+Machine-id is autogenerated on installation/boot. It's used by systemd, d-bus, networkmanager, and sometimes licenses and UUID-based apps:
+```bash
 sudo truncate -s 0 /etc/machine-id
-sudo rm -f /var/lib/dbus/machine-id</pre>
+sudo rm -f /var/lib/dbus/machine-id
+```
 
--3.5.4 Shell history
-<pre>
+-3.5.4 **Shell history** <br>
+
+Not strictly necessary to remove, but command history could reveal sensetive information. 
+```bash
 history -c  
-rm -f ~/.bash_history</pre>
+rm -f ~/.bash_history
+```
+
+-3.5.4 **Create Template and clones** <br>
+
+Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones with the following names: Management, Monitoring, Application
+
+It is also recommended to use the *Linked Clone* mode, for potential performance gains. 
+
+The clones will be given new VM IDs, and new static IP addresses.
+
+Running one of the clones for the first time, you could run `df -h` and `free -h` to check the available disk-space and memory.
 
 ## Target Audience
-Målgrupp
+This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
+This repo is also part of a larger project aimed at people interested in learning about IaC, and building such an environment from scratch. 
 
 ## Document Status
-Dokumentstatus (om det finns relevant information om dokumentets status, till exempel utkast, slutfört, etc.). Tex:
 > [!NOTE]  
-> My work here is not finished yet. I need, among other things, to supplement with instructions on how each component should be configured to work together as well supplement with an overview image that explains how the whole thing works.
+> This is a work in progress.<br>
+> This repo is part of a larger ongoing project.
+<br>
 
 ## Disclaimer
-Ansvarsfriskrivning. Tex:
 > [!CAUTION]
 > This is intended for learning, testing, and experimentation. The emphasis is not on security or creating an operational environment suitable for production.
+<br>
 
 ## Scope and Limitations
-Omfattning och begränsningar
+- ### 7.1. Scope
+   * Instructions for installing and configuring Rocky Linux as a golden image.
+   * Instructions for how to work within Proxmox VE (9.1.1) and manage VMs. 
+
+- ### 7.2. Limitations
+   * This guide is not intended for production-grade, multi-node clusters or advanced HA setups.
+   * Hardware compatibility varies; If unsure, check <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>hardware requirements</a> before proceeding. 
+   * Network configuration is for now limited to a single-node setup and may not apply to complex environments.
+   * Instructions may become outdated as software updates; always verify with the official documentation.
+<br>
 
 ## Environment
-Miljö som användes
+- ### 8.1. Hardware
+   - Asus PN64 ax210NGW 16 GB.
+
+- ### 8.2. Software
+   - RHEL was used for downloading Rocky Linux.
+   - Proxmox was used extensively in this project.
+<br>
 
 ## Acknowledgments
-Tack och erkännanden. Tex:
-Big thanks to all the people involved in the material I refer to in my links! I would also like to express gratitude to everyone out there, including my colleagues and friends, who are creating things that help and inspire us to continue learning and exploring this never-ending world of computer technology.
+- We would like to thank <a href=https://github.com/rafaelurrutiasilva>Rafael Urrutia</a> for his continuous support and guidance.
 
 ## References
-Referenser (om det behövs)
+- [SMHI](https://www.smhi.se/en/about-smhi)
+- [Rocky Linux Download Page](https://rockylinux.org/download))
+- [Rocky Linux hardware requirements](https://docs.rockylinux.org/10/guides/minimum_hardware_requirements)
+- [Proxmox Firewall Macros](https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc)
+<br>
 
 ## Conclusion
-Slutsats
+The aim of this project was to prepare a Rocky Linux install to use as a golden image. We strived to keep it minimal, yet include a set of binaries that will be useful throughout the project. This project also helped us further explore Proxmox and virtualization, and we have become more familiar with these as a result. 
