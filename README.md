@@ -14,12 +14,12 @@ Second project <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blo
 
 1. [Introduction](#introduction)
 2. [Goals and Objectives](#goals-and-objectives)
-3. [Method](#method)
-   3.1 [Download and verify Rocky Linux](#31-download-and-verify-rocky-linux)<br>
+3. [Method](#method) <br>
+   3.1 [Download and verify Rocky Linux](#31-download-and-verify-rocky-linux) <br>
    3.2 [Create a Rocky Linux VM](#32-create-a-rocky-linux-vm)<br>
    3.3 [Configure Rocky Linux](#33-configure-rocky-linux)<br>
    3.4 [Firewall Configuration](#34-firewall-configuration)<br>
-   3.5 [Cleaning up and finnishing](#35-cleaning-up-and-finnishing)<br>
+   3.5 [Cleaning up and finishing](#35-cleaning-up-and-finishing)<br>
 4. [Target Audience](#target-audience)
 5. [Document Status](#document-status)
 6. [Disclaimer](#disclaimer)
@@ -264,7 +264,7 @@ The firewall can also be compiled to check for errors with: `pve-firewall compil
 
 Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap.
 
-### 3.5 Cleaning up and finnishing
+### 3.5 Cleaning up and finishing
 
 The VM is almost ready to be copied. One final thing to do is cleaning up temporary and machine-specific files.
 
@@ -347,7 +347,7 @@ This repo is also part of a larger project aimed at people interested in learnin
 
 ## References
 - [SMHI](https://www.smhi.se/en/about-smhi)
-- [Rocky Linux Download Page](https://rockylinux.org/download))
+- [Rocky Linux Download Page](https://rockylinux.org/download)
 - [Rocky Linux hardware requirements](https://docs.rockylinux.org/10/guides/minimum_hardware_requirements)
 - [Proxmox Firewall Macros](https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc)
 <br>
