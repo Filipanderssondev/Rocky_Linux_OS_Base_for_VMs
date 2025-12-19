@@ -42,7 +42,7 @@ The goal of this project is to build a complete IT-environment and gain a deeper
 ## Method
 ### 3.1. Download and verify Rocky Linux
 
-- 3.1.1 **Download Rocky Linux** <br>
+#### 3.1.1. **Download Rocky Linux** <br>
 
 We chose the generic cloud image file (.qcow2), since this is optimal for environments like Proxmox, and is easy to make templates from. 
 The current version of Rocky Linux is v10.1 and it's downloaded from the <a href=https://rockylinux.org/download>official site</a>.
