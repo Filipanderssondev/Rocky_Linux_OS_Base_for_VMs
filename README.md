@@ -42,7 +42,7 @@ The goal of this project is to build a complete IT-environment and gain a deeper
 ## Method
 ### 3.1. Download and verify Rocky Linux
 
-- 3.1.1. **Download Rocky Linux** <br>
+#### 3.1.1. **Download Rocky Linux** <br>
 
 We chose the generic cloud image file (.qcow2), since this is optimal for environments like Proxmox, and is easy to make templates from. 
 The current version of Rocky Linux is v10.1 and it's downloaded from the <a href=https://rockylinux.org/download>official site</a>.
@@ -50,7 +50,7 @@ Also download the CHECKSUM file.
 
 Open a terminal and go to the download location: `cd ./Downloads`
 
-- 3.1.2 **Compute the hash** <br>
+#### 3.1.2 **Compute the hash** <br>
 
 This can be done with: `sha256sum Rocky-10-GenericCloud-Base.latest.x86_64.qcow2`
 
@@ -58,7 +58,7 @@ Confirm with: `sha256sum -c CHECKSUM | grep OK`
 
 ### 3.2. Create a Rocky Linux VM
 
-- 3.2.1 **Add the cloud image file** <br>
+#### 3.2.1 **Add the cloud image file** <br>
 
 In the Proxmox web-GUI, go to Datacenter > Storage > Local <br>
 Add *Import* to Content list.
@@ -66,7 +66,7 @@ Add *Import* to Content list.
 Then go to Node > Local > Import <br>
 Upload the cloud image. 
 
-- 3.2.2 **Create a new VM** <br>
+#### 3.2.2 **Create a new VM** <br>
 
 Now create a VM by clicking the blue button *Create VM* in the topright corner. 
 
@@ -114,7 +114,7 @@ Network: <br>
 These settings are preliminary and may be changed. Our server has an Intel® Core™ i7-12700H Processor with 14 cores, 64GB of RAM and 1TB of storage. Assigning all 14 cores to every VM may cause contention, so we'll monitor this. The lightweight version of Rocky Linux <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>requires about 1GB of RAM</a>, so 4GB should be plenty for a single VM. Hard disk size is set to 10GB by default. The size may be increased later on, and is evaluated on a per-VM basis.
 
 
-- 3.2.3 **Import Hard Disk** <br>
+#### 3.2.3 **Import Hard Disk** <br>
 
 Go to the new VM > Hardware > Add > Import Hard Disk <br>
 Important Storage: local <br>
@@ -123,7 +123,7 @@ Target Storage: local-lvm
 
 Also Add > CloudInit Drive
 
-- 3.2.4 **Cloud-init settings** <br>
+#### 3.2.4 **Cloud-init settings** <br>
 
 Go to the Cloud-Init menu for the VM <br>
 Choose a username and password
@@ -142,13 +142,13 @@ Start the VM and log in.
 
 ### 3.3 Configure Rocky Linux
 
-- 3.3.1 **Keyboard and Timezone** <br>
+#### 3.3.1 **Keyboard and Timezone** <br>
 
 Swedish keyboard layout: `sudo localectl set-keymap se`
 
 Change Timezone: `sudo timedatectl set-timezone Europe/Stockholm`
 
-- 3.3.2 **Update sources** <br>
+#### 3.3.2 **Update sources** <br>
 
 Before updating, we change our repo sources to use a mirror provided by NSC: *mirror.nsc.liu.se* (https/433).
 This step is not necessary if you can run `yum update` / `dnf update` directly. For our project, it's the prefered domain. 
@@ -157,7 +157,7 @@ In */etc/yum.sources.d*, there are a couple of repos that can be changed. We cha
 
 Comment/remove the lines beginning with mirrorlist, and replace *http://dl.rockylinux.org* with *https://mirror.nsc.liu.se* in baseurl. Also remove the comment from the baseurl lines. Save and update. 
 
-- 3.3.3 **Install additional programs** <br>
+#### 3.3.3 **Install additional programs** <br>
 
 The Rocky Linux cloud image is purposefully minimal. Though there are some programs we'll want available for every clone, and will install here. After running an update, we installed the following: <br>
 bind-utils <br>
@@ -170,13 +170,13 @@ zip <br>
 nmap <br>
 tmux <br>
 
-- 3.3.4 **Change console font and size** <br>
+#### 3.3.4 **Change console font and size** <br>
 
 I felt like I needed to change to fontsize so I researched and researched and finally I found where, as it turns out our tty didnt have a font to begin with so I had to set an existing font to change the font size because it was way to small so all i did was: `sudo vi /etc/vconsole.conf`
 
 and added: `FONT=sun12x22.psfu.gz`
 
-- 3.3.5 **Add users** <br>
+#### 3.3.5 **Add users** <br>
 
 We added a new user for each of us and placed these in the wheel group:
 ```bash
@@ -190,7 +190,7 @@ We added a new user for each of us and placed these in the wheel group:
 
 There is a firewall at every layer in Proxmox (datacenter > node > virtual machine). At the datacenter level, security groups, aliases and IPsets can be created. A security group is a grouping of rules, which can then be quickly applied to nodes and virtual machines. An IP set groups networks and hosts, which can then be added as source and destination properties for firewall rules. 
 
-- 3.4.1 **SSH** <br>
+#### 3.4.1 **SSH** <br>
 
 Go to Datacenter > Firewall > Security Group
 Create a new security group with the following configuration:<pre>
@@ -208,7 +208,7 @@ Next, create an IP range that covers your management devices.
 
 Now you can go back to the SSH rule and add the management IPSet as source.
 
-- 3.4.2 **ICMP** <br>
+#### 3.4.2 **ICMP** <br>
 
 Next, we'll make a new security group for ICMP. There is no macro for ICMP, so it must be selected in the protocol field:<pre>
 Direction: in
@@ -219,7 +219,7 @@ Log level: info</pre>
 
 ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. We'll also add the same rules for IPv6-ICMP.
 
-- 3.4.3 **DNS** <br>
+#### 3.4.3 **DNS** <br>
 
 We'll make a new IP set that points to our organisation's DNS server. We also create a security group for DNS with the following rule:<pre>
 Direction: out
@@ -229,7 +229,7 @@ Macro: DNS
 Destination +dns
 Log level: info</pre>
 
-- 3.4.4 **Web** <br>
+#### 3.4.4 **Web** <br>
 
 We create a new security group for web, and add a new rule:<pre>
 Direction: in
@@ -247,7 +247,7 @@ Destination: (Server's IP)
 Dest. port: 8006
 Log level: info</pre>
 
-- 3.4.5 **Block all other traffic** <br>
+#### 3.4.5 **Block all other traffic** <br>
 
 The last security group will block everything else. For now, we use a single rule:<pre>
 Direction: In
@@ -256,7 +256,7 @@ Enable: Yes</pre>
 
 This rule works as a catch-all, and must be set as the last firewall rule, wheter it's applied at node level or VM level. We chose reject over drop to get instant feedback (connection refused instead of timeout).
 
-- 3.4.6 **Set up Firewall**<br>
+#### 3.4.6 **Set up Firewall**<br>
 
 Every security group is added to the rocky-base VM. Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level. Proxmox will apply rules automatically. You can go into the server shell to confirm that the firewall is running with: `pve-firewall status`
 
@@ -268,11 +268,11 @@ Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl
 
 The VM is almost ready to be copied. One final thing to do is cleaning up temporary and machine-specific files.
 
-- 3.5.1 **Clear DNF/YUN cache, metadata and tmp files** <br>
+#### 3.5.1 **Clear DNF/YUN cache, metadata and tmp files** <br>
 
 Package-manager leftovers can be cleared with this command: `sudo dnf clean all`
 
-- 3.5.2 **Temporary files** <br>
+#### 3.5.2 **Temporary files** <br>
 
 Remove any files left in temporary folders:
 ```bash
@@ -280,7 +280,7 @@ sudo rm -rf /tmp/*
 sudo rm -rf /var/tmp/*
 ```
 
-- 3.5.3 **Machine ID** <br>
+#### 3.5.3 **Machine ID** <br>
 
 Machine-id is autogenerated on installation/boot. It's used by systemd, d-bus, networkmanager, and sometimes licenses and UUID-based apps:
 ```bash
@@ -288,7 +288,7 @@ sudo truncate -s 0 /etc/machine-id
 sudo rm -f /var/lib/dbus/machine-id
 ```
 
--3.5.4 **Shell history** <br>
+#### 3.5.4 **Shell history** <br>
 
 Not strictly necessary to remove, but command history could reveal sensetive information. 
 ```bash
@@ -296,7 +296,7 @@ history -c
 rm -f ~/.bash_history
 ```
 
--3.5.4 **Create Template and clones** <br>
+#### 3.5.4 **Create Template and clones** <br>
 
 Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones with the following names: Management, Monitoring, Application
 
