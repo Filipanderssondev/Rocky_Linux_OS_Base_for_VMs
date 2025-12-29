@@ -7,7 +7,7 @@
 
 
 ## Abstract
-Second project <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, preparation of Rocky Linux for golden image cloning. <br>
+Preparation of Rocky Linux for golden image cloning on a Proxmox server. <br>
 <br>
 
 ## Table of Contents
@@ -30,8 +30,7 @@ Second project <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blo
 11. [Conclusion](#conclusion)
 
 ## Introduction
-**Greetings!** <br>
-_...and welcome! This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship on [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi) IT-department at the headquarters in Norrköping. Previously, <a href=https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc>Proxmox was installed and configured</a> on a server. Here we will prepare a Rocky Linux golden image for cloning. A <a href=https://www.redhat.com/en/topics/linux/what-is-a-golden-image>golden image</a> serves as a baseline template for replication, reducing repetitive setup and ensuring consistency.<br>
+This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship on [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi) IT-department at the headquarters in Norrköping. Previously, <a href=https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc>Proxmox was installed and configured</a> on a server. Here we will prepare a Rocky Linux golden image for cloning. A <a href=https://www.redhat.com/en/topics/linux/what-is-a-golden-image>golden image</a> serves as a baseline template for replication, reducing repetitive setup and ensuring consistency. When ready, a template will be created from the Rocky Linux image, and then cloned. <br>
 
 **<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>**
 
@@ -44,7 +43,7 @@ The goal of this project is to build a complete IT-environment and gain a deeper
 
 #### 3.1.1. **Download Rocky Linux** <br>
 
-We chose the generic cloud image file (.qcow2), since this is optimal for environments like Proxmox, and is easy to make templates from. 
+Instead of a regular .ISO file, we chose the generic cloud image file (.qcow2), since this is optimal for environments like Proxmox, and is easy to make templates from. 
 The current version of Rocky Linux is v10.1 and it's downloaded from the <a href=https://rockylinux.org/download>official site</a>.
 Also download the CHECKSUM file.
 
@@ -322,7 +321,7 @@ This repo is also part of a larger project aimed at people interested in learnin
 ## Scope and Limitations
 - ### 7.1. Scope
    * Instructions for installing and configuring Rocky Linux as a golden image.
-   * Instructions for how to work within Proxmox VE (9.1.1) and manage VMs. 
+   * Instructions for how to work within Proxmox VE (9.1.1), create and manage VMs. 
 
 - ### 7.2. Limitations
    * This guide is not intended for production-grade, multi-node clusters or advanced HA setups.
