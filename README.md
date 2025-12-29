@@ -253,7 +253,7 @@ Direction: In
 Action: Reject
 Enable: Yes</pre>
 
-This rule works as a catch-all, and must be set as the last firewall rule, wheter it's applied at node level or VM level. We chose reject over drop to get instant feedback (connection refused instead of timeout).
+This rule works as a catch-all, and must be set as the last firewall rule, wheter it's applied at node level or VM level. We chose *reject* over *drop* to get instant feedback (connection refused instead of timeout).
 
 #### 3.4.6 **Set up Firewall**<br>
 
