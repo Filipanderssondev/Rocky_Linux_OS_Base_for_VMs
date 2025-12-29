@@ -297,11 +297,14 @@ rm -f ~/.bash_history
 
 #### 3.5.4 **Create Template and clones** <br>
 
-Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones with the following names: mgmt-01, metrics-01, app-01
+Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones: 
+- mgmt-01
+- metrics-01
+- app-01
 
-It is also recommended to use the *Linked Clone* mode, for potential performance gain. 
+We recommend using the *Linked Clone* mode, for potential performance gain. 
 
-The clones will be given new VM IDs, and new static IP addresses.
+The clones will be given new VM IDs, and new static IP addresses. That's all the setup needed in the cloning process. 
 
 ## Target Audience
 This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
