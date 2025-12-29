@@ -7,7 +7,7 @@
 
 
 ## Abstract
-Second project <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a> during our internship at **The Swedish Meteorological and Hydrological Institute** [(SMHI)](https://www.smhi.se/en/about-smhi), Preparation of Rocky Linux for golden image cloning. <br>
+Second project <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, preparation of Rocky Linux for golden image cloning. <br>
 <br>
 
 ## Table of Contents
@@ -31,7 +31,7 @@ Second project <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blo
 
 ## Introduction
 **Greetings!** <br>
-_...and welcome! This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship on [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi) IT-department at the headquarters in Norrköping. These projects also serve as a set-up guide here on Github for anyone and everyone that wants to follow along!._<br>
+_...and welcome! This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship on [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi) IT-department at the headquarters in Norrköping. Previously, <a href=https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc>Proxmox was installed and configured</a> on a server. Here we will prepare a Rocky Linux golden image for cloning. A <a href=https://www.redhat.com/en/topics/linux/what-is-a-golden-image>golden image</a> serves as a baseline template for replication, reducing repetitive setup and ensuring consistency.<br>
 
 **<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>**
 
@@ -298,13 +298,11 @@ rm -f ~/.bash_history
 
 #### 3.5.4 **Create Template and clones** <br>
 
-Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones with the following names: Management, Monitoring, Application
+Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones with the following names: mgmt-01, metrics-01, app-01
 
-It is also recommended to use the *Linked Clone* mode, for potential performance gains. 
+It is also recommended to use the *Linked Clone* mode, for potential performance gain. 
 
 The clones will be given new VM IDs, and new static IP addresses.
-
-Running one of the clones for the first time, you could run `df -h` and `free -h` to check the available disk-space and memory.
 
 ## Target Audience
 This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
@@ -335,7 +333,7 @@ This repo is also part of a larger project aimed at people interested in learnin
 
 ## Environment
 - ### 8.1. Hardware
-   - Asus PN64 ax210NGW 16 GB.
+   - Asus PN64 ax210NGW.
 
 - ### 8.2. Software
    - RHEL was used for downloading Rocky Linux.
