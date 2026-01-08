@@ -354,6 +354,7 @@ This repo is also part of a larger project aimed at people interested in learnin
 - [Rocky Linux Download Page](https://rockylinux.org/download)
 - [Rocky Linux hardware requirements](https://docs.rockylinux.org/10/guides/minimum_hardware_requirements)
 - [Proxmox Firewall Macros](https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc)
+- [Project 1: Proxmox on Nuc](https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc)
 <br>
 
 ## Conclusion
