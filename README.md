@@ -7,7 +7,7 @@
 
 
 ## Abstract
-Preparation of Rocky Linux for golden image cloning on a Proxmox server. <br>
+Creating a Rocky Linux golden image OS base for virtual machines on a Proxmox server. <br>
 <br>
 
 ## Table of Contents
