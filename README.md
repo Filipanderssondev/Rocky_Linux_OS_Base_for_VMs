@@ -217,7 +217,9 @@ Enable: Yes
 Protocol: icmp
 Log level: info</pre>
 
-ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make an outbound rule for every inbound rule. In total, there will be 16 ICMP rules. 
+ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make a copy of every rule, with the direction set to *out*. In total, there will be 16 ICMP rules. 
+
+Create a new security group, and call it something like *allow-ipv6*. This group will contain rules for IPv6-ICMP types that enable basic IPv6 functionality. The following types will be allowed: packet too big (2), router solicitation (133), router advertisment (134), neighbour solicitation (135) and neighbour advertisment (136). Like before, create a copy of each rule with an outbound direction. 
 
 #### 3.4.3 **DNS** <br>
 
