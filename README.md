@@ -202,13 +202,9 @@ Log level: info</pre>
 
 Set logging to whichever level you prefer, or keep it turned off if you like. *Debug* may be a bit too verbose, so we chose *info* as our baseline. 
 
+We'll also make a copy of the rule, and set its direction to *out*. We'll not allow outbound traffic by default. 
+
 Specifications for macros can be found <a href=https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc>here</a>.
-
-Go to Datacenter > Firewall > IPSet  <br>
-Create a new IP set, call it something like management.  <br>
-Next, create an IP range that covers your management devices.
-
-Now you can go back to the SSH rule and add the management IPSet as source.
 
 #### 3.4.2 **ICMP** <br>
 
@@ -219,11 +215,14 @@ Enable: Yes
 Protocol: icmp
 Log level: info</pre>
 
-ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. We'll also add the same rules for IPv6-ICMP.
+ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make an outbound rule for every inbound rule. 
 
 #### 3.4.3 **DNS** <br>
 
-We'll make a new IP set that points to our organisation's DNS server. We also create a security group for DNS with the following rule:<pre>
+Go to Datacenter > Firewall > IPSet
+Create a new IP set and call it dns. Add the IP-address of your DNS-server. 
+
+Create a security group for DNS with the following rule:<pre>
 Direction: out
 Action: ACCEPT
 Enable: Yes
@@ -240,29 +239,57 @@ Enable: Yes
 Macro: Web
 Log level: info</pre>
 
-Proxmox uses 8006 for its own web traffic, so it's important to include that:<pre>
-Direction: in
+Note that this macro allows both HTTP and HTTPS. 
+
+#### 3.4.5 **NTP** <br>
+
+Security group for NTP, with the rule:<pre>
+Direction: out
 Action: ACCEPT
 Enable: Yes
-Protocol: tcp
-Destination: (Server's IP)
-Dest. port: 8006
+Macro: NTP
 Log level: info</pre>
 
-#### 3.4.5 **Block all other traffic** <br>
+#### 3.4.6 **Block all other traffic** <br>
 
-The last security group will block everything else. For now, we use a single rule:<pre>
+The last security group will block everything else:<pre>
 Direction: In
-Action: Reject
+Action: Drop
 Enable: Yes</pre>
 
-This rule works as a catch-all, and must be set as the last firewall rule, wheter it's applied at node level or VM level. We chose *reject* over *drop* to get instant feedback (connection refused instead of timeout).
+<pre>
+Direction: Out
+Action: Drop
+Enable: Yes</pre>
 
-#### 3.4.6 **Set up Firewall**<br>
+These rules works as a catch-all, and must be set as the last in the rule-matching order, wheter it's applied at node level or VM level. It might be worth considering wheter to use *drop* or *reject*. 
+Reject usually gives instant feedback (connection refused instead of timeout) and is more convinient for a lab environment. Drop, however, is less prone to leak information.
 
-Every security group is added to the rocky-base VM. Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level. Proxmox will apply rules automatically. You can go into the server shell to confirm that the firewall is running with: `pve-firewall status`
+#### 3.4.7 **Set up Firewall**<br>
 
-The firewall can also be compiled to check for errors with: `pve-firewall compile > firewall.txt`
+Add the security-groups to the rocky-base VM. The order we selected is: <br>
+allow-icmp <br>
+allow-ssh <br>
+allow-dns <br>
+allow-ntp <br>
+allow-web <br>
+drop-everything <br>
+
+For further hardening, configure the firewall options on the VM level: <br>
+Firewall - On  <br>
+DHCP - Off (we're not using DHCP in this lab) <br>
+NDP - On (necessary for IPv6 functionality) <br>
+Router Advertisment - On (also used by IPv6) <br>
+MAC filter - On (prevents MAC-address spoofing) <br>
+IP filter - Off (prevents IP-address spoofing, causes issues so it's turned off) <br>
+log_level_in - info  <br>
+log_level_out - info <br>
+Input Policy - DROP (drops traffic when no rule matches, does what the drop-everything-rule does) <br>
+Output Policy - DROP <br>
+
+Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level. You can go into the server shell to confirm that the firewall is running with: `pve-firewall status`
+
+The firewall can also be compiled to check for errors with: `pve-firewall compile`
 
 Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap.
 
@@ -308,6 +335,12 @@ Shut down the VM, then convert it to a template. This template can now be easily
 We recommend using the *Linked Clone* mode, for potential performance gain. 
 
 The clones will be given new VM IDs, and new static IP addresses. That's all the setup needed in the cloning process. 
+
+#### 3.5.5 IPSet for management
+Go to Datacenter > Firewall > IPSet
+Create a new IP set, call it something like management.
+Next, create an IP range that covers your management devices.
+
 
 ## Target Audience
 This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
