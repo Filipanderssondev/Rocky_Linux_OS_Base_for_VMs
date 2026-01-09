@@ -188,7 +188,9 @@ We added a new user for each of us and placed these in the wheel group:
 
 ### 3.4 Firewall Configuration
 
-There is a firewall at every layer in Proxmox (datacenter > node > virtual machine). At the datacenter level, security groups, aliases and IPsets can be created. A security group is a grouping of rules, which can then be quickly applied to nodes and virtual machines. An IP set groups networks and hosts, which can then be added as source and destination properties for firewall rules. 
+There is a firewall at every layer in Proxmox (datacenter > node > virtual machine). At the datacenter level, security groups, aliases and IPsets can be created. A security group is a grouping of rules, which can then be quickly applied to nodes and virtual machines. An IP set groups networks and hosts, which can then be added as source and destination properties for firewall rules.
+
+This firewall will be designed to be only as permissive as it needs to be. Initially, we'll identify which protocols we need to use, and make rules for these. As the project evolves, so will the firewall, and new rules will be added later on. 
 
 #### 3.4.1 **SSH** <br>
 
@@ -202,7 +204,7 @@ Log level: info</pre>
 
 Set logging to whichever level you prefer, or keep it turned off if you like. *Debug* may be a bit too verbose, so we chose *info* as our baseline. 
 
-We'll also make a copy of the rule, and set its direction to *out*. We'll not allow outbound traffic by default. 
+We'll also make a copy of the rule, and set its direction to *out*.
 
 Specifications for macros can be found <a href=https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc>here</a>.
 
@@ -215,7 +217,7 @@ Enable: Yes
 Protocol: icmp
 Log level: info</pre>
 
-ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make an outbound rule for every inbound rule. 
+ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make an outbound rule for every inbound rule. In total, there will be 16 ICMP rules. 
 
 #### 3.4.3 **DNS** <br>
 
@@ -239,7 +241,7 @@ Enable: Yes
 Macro: Web
 Log level: info</pre>
 
-Note that this macro allows both HTTP and HTTPS. 
+Note that this macro allows both HTTP and HTTPS. Consider if a second rule for outbound web traffic will be necessary. For our lab, it will be, so we'll add it.
 
 #### 3.4.5 **NTP** <br>
 
@@ -252,7 +254,7 @@ Log level: info</pre>
 
 #### 3.4.6 **Block all other traffic** <br>
 
-The last security group will block everything else:<pre>
+The last security group will block everything else, call it something like *drop-everything* and make two new rules:<pre>
 Direction: In
 Action: Drop
 Enable: Yes</pre>
@@ -262,8 +264,8 @@ Direction: Out
 Action: Drop
 Enable: Yes</pre>
 
-These rules works as a catch-all, and must be set as the last in the rule-matching order, wheter it's applied at node level or VM level. It might be worth considering wheter to use *drop* or *reject*. 
-Reject usually gives instant feedback (connection refused instead of timeout) and is more convinient for a lab environment. Drop, however, is less prone to leak information.
+These rules works as a catch-all, and must be set as the last in the rule-matching order. It might be worth considering wheter to use *drop* or *reject*. 
+Reject usually gives instant feedback (connection refused instead of timeout) and is more convenient for a lab environment. Drop, however, is less prone to leak information.
 
 #### 3.4.7 **Set up Firewall**<br>
 
