@@ -195,7 +195,7 @@ This firewall will be designed to be only as permissive as it needs to be. Initi
 #### 3.4.1 **SSH** <br>
 
 Go to Datacenter > Firewall > Security Group
-Create a new security group with the following configuration:<pre>
+Create a new security group, call it something like *allow-ssh* with the following configuration:<pre>
 Direction: in
 Action: ACCEPT
 Enable: Yes
@@ -217,9 +217,20 @@ Enable: Yes
 Protocol: icmp
 Log level: info</pre>
 
-ICMP type can be specified. We'll allow the following types: echo-reply, destination-unreachable, echo-request and time-exceeded. These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make a copy of every rule, with the direction set to *out*. In total, there will be 16 ICMP rules. 
+ICMP type can be specified. We'll allow the following types: 
+- echo-reply
+- destination-unreachable
+- echo-request
+- time-exceeded <br>
 
-Create a new security group, and call it something like *allow-ipv6*. This group will contain rules for IPv6-ICMP types that enable basic IPv6 functionality. The following types will be allowed: packet too big (2), router solicitation (133), router advertisment (134), neighbour solicitation (135) and neighbour advertisment (136). Like before, create a copy of each rule with an outbound direction. 
+These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make a copy of every rule, with the direction set to *out*. In total, there will be 16 ICMP rules. 
+
+Create a new security group, and call it something like *allow-ipv6*. This group will contain rules for IPv6-ICMP types that enable basic IPv6 functionality. The following types will be allowed: 
+- *packet too big* (2) for both directions 
+- router solicitation (133) out
+- router advertisment (134) in
+- neighbour solicitation (135) out
+- neighbour advertisment (136) in
 
 #### 3.4.3 **DNS** <br>
 
@@ -257,12 +268,12 @@ Log level: info</pre>
 #### 3.4.6 **Block all other traffic** <br>
 
 The last security group will block everything else, call it something like *drop-everything* and make two new rules:<pre>
-Direction: In
+Direction: in
 Action: Drop
 Enable: Yes</pre>
 
 <pre>
-Direction: Out
+Direction: out
 Action: Drop
 Enable: Yes</pre>
 
@@ -273,6 +284,7 @@ Reject usually gives instant feedback (connection refused instead of timeout) an
 
 Add the security-groups to the rocky-base VM. The order we selected is: <br>
 allow-icmp <br>
+allow-ipv6 <br>
 allow-ssh <br>
 allow-dns <br>
 allow-ntp <br>
@@ -280,12 +292,12 @@ allow-web <br>
 drop-everything <br>
 
 For further hardening, configure the firewall options on the VM level: <br>
-Firewall - On  <br>
-DHCP - Off (we're not using DHCP in this lab) <br>
-NDP - On (necessary for IPv6 functionality) <br>
-Router Advertisment - On (also used by IPv6) <br>
-MAC filter - On (prevents MAC-address spoofing) <br>
-IP filter - Off (prevents IP-address spoofing, causes issues so it's turned off) <br>
+Firewall - on  <br>
+DHCP - off (we're not using DHCP in this lab) <br>
+NDP - on (necessary for IPv6 functionality) <br>
+Router Advertisment - on (also used by IPv6) <br>
+MAC filter - on (prevents MAC-address spoofing) <br>
+IP filter - off (prevents IP-address spoofing, causes issues so it's turned off) <br>
 log_level_in - info  <br>
 log_level_out - info <br>
 Input Policy - DROP (drops traffic when no rule matches, does what the drop-everything-rule does) <br>
@@ -295,7 +307,7 @@ Double-check that the firewall is enabled. If it's disabled at one level, it wil
 
 The firewall can also be compiled to check for errors with: `pve-firewall compile`
 
-Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap.
+Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap. 
 
 ### 3.5 Cleaning up and finishing
 
