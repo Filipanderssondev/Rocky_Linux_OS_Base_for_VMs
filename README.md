@@ -47,13 +47,16 @@ Instead of a regular .ISO file, we chose the generic cloud image file (.qcow2), 
 The current version of Rocky Linux is v10.1 and it's downloaded from the <a href=https://rockylinux.org/download>official site</a>.
 Also download the CHECKSUM file.
 
-Open a terminal and go to the download location: `cd ./Downloads`
+Open a terminal and go to the download location: ```bash
+cd ./Downloads```
 
 #### 3.1.2 **Compute the hash** <br>
 
-This can be done with: `sha256sum Rocky-10-GenericCloud-Base.latest.x86_64.qcow2`
+This can be done with: ```bash
+sha256sum Rocky-10-GenericCloud-Base.latest.x86_64.qcow2```
 
-Confirm with: `sha256sum -c CHECKSUM | grep OK`
+Confirm with: ```bash
+sha256sum -c CHECKSUM | grep OK```
 
 ### 3.2. Create a Rocky Linux VM
 
