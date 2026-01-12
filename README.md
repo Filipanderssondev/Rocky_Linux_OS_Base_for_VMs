@@ -270,12 +270,14 @@ Log level: info</pre>
 The last security group will block everything else, call it something like *drop-everything* and make two new rules:<pre>
 Direction: in
 Action: Drop
-Enable: Yes</pre>
+Enable: Yes
+Log level: info</pre>
 
 <pre>
 Direction: out
 Action: Drop
-Enable: Yes</pre>
+Enable: Yes
+Log level: info</pre>
 
 These rules works as a catch-all, and must be set as the last in the rule-matching order. It might be worth considering wheter to use *drop* or *reject*. 
 Reject usually gives instant feedback (connection refused instead of timeout) and is more convenient for a lab environment. Drop, however, is less prone to leak information.
@@ -303,11 +305,9 @@ log_level_out - info <br>
 Input Policy - DROP (drops traffic when no rule matches, does what the drop-everything-rule does) <br>
 Output Policy - DROP <br>
 
-Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level. You can go into the server shell to confirm that the firewall is running with: `pve-firewall status`
+Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level.
 
-The firewall can also be compiled to check for errors with: `pve-firewall compile`
-
-Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap. 
+Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap.
 
 ### 3.5 Cleaning up and finishing
 
