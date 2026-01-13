@@ -307,7 +307,7 @@ Output Policy - DROP </pre>
 
 Double-check that the firewall is enabled. If it's disabled at one level, it will also be disabled at every lower level.
 
-Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap. Also, 
+Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap.
 
 ### 3.5 Cleaning up and finishing
 
