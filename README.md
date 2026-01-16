@@ -153,18 +153,27 @@ Start the VM and log in.
 
 #### 3.3.1 **Keyboard and Timezone** <br>
 
-Swedish keyboard layout: `sudo localectl set-keymap se`
+Swedish keyboard layout: 
+```
+sudo localectl set-keymap se
+```
 
-Change Timezone: `sudo timedatectl set-timezone Europe/Stockholm`
+Change Timezone: 
+```
+sudo timedatectl set-timezone Europe/Stockholm
+```
 
 #### 3.3.2 **Update sources** <br>
 
 Before updating, we change our repo sources to use a mirror provided by NSC: *mirror.nsc.liu.se* (https/433).
-This step is not necessary if you can run `yum update` / `dnf update` directly. For our project, it's the prefered domain. 
+This step is not necessary if you can run *dnf update* directly. For our project, we must request which resoruces we want to access over the Internet, and this is our prefered source. 
 
-In */etc/yum.sources.d*, there are a couple of repos that can be changed. We change them with: `vi /etc/yum.repos.d/rocky.repo`
+In */etc/yum.sources.d*, there are a couple of repos that can be changed. We change them with: 
+```
+vi /etc/yum.repos.d/rocky.repo
+```
 
-Comment/remove the lines beginning with mirrorlist, and replace *http://dl.rockylinux.org* with *https://mirror.nsc.liu.se* in baseurl. Also remove the comment from the baseurl lines. Save and update. 
+Comment out the lines beginning with mirrorlist, and replace *http://dl.rockylinux.org* with *https://mirror.nsc.liu.se* in baseurl. Also remove the comment from the baseurl lines. Save and update. 
 
 #### 3.3.3 **Install additional programs** <br>
 
@@ -181,18 +190,21 @@ The Rocky Linux cloud image is purposefully minimal. Though there are some progr
 
 #### 3.3.4 **Change console font and size** <br>
 
-I felt like I needed to change to fontsize so I researched and researched and finally I found where, as it turns out our tty didnt have a font to begin with so I had to set an existing font to change the font size because it was way to small so all i did was: `sudo vi /etc/vconsole.conf`
+I felt like I needed to change to fontsize so I researched and researched and finally I found where, as it turns out our tty didnt have a font to begin with so I had to set an existing font to change the font size because it was way to small so all i did was: 
+```
+sudo vi /etc/vconsole.conf
+```
 
 and added: `FONT=sun12x22.psfu.gz`
 
 #### 3.3.5 **Add users** <br>
 
-We added a new user for each of us and placed these in the wheel group:
+We added new users for each of us and placed these in the wheel group:
 ```bash
-	useradd jonatan
-	useradd Filip
-	usermod -aG wheel jonatan
-	usermod -aG wheel Filip
+useradd jonatan
+useradd Filip
+usermod -aG wheel jonatan
+usermod -aG wheel Filip
 ```
 
 ### 3.4 Firewall Configuration
@@ -232,7 +244,7 @@ ICMP type can be specified. We'll allow the following types:
 - echo-request
 - time-exceeded <br>
 
-These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make a copy of every rule, with the direction set to *out*. In total, there will be 16 ICMP rules. 
+These rules allow for troubleshooting, without being too permissive. We'll also add the same rules for IPv6-ICMP. Next, make a copy of each rule, and change its direction to *out*. In total, there will be 16 ICMP rules. 
 
 Create a new security group, and call it something like *allow-ipv6*. This group will contain rules for IPv6-ICMP types that enable basic IPv6 functionality. The following types will be allowed: 
 - packet too big (2) for both directions 
@@ -324,7 +336,10 @@ The VM is almost ready to be copied. One final thing to do is cleaning up tempor
 
 #### 3.5.1 **Clear DNF/YUN cache, metadata and tmp files** <br>
 
-Package-manager leftovers can be cleared with this command: `sudo dnf clean all`
+Package-manager leftovers can be cleared with this command: 
+```
+sudo dnf clean all
+```
 
 #### 3.5.2 **Temporary files** <br>
 
