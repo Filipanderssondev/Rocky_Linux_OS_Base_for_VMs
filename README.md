@@ -26,11 +26,13 @@ Creating a Rocky Linux golden image OS base for virtual machines on a Proxmox se
 7. [Scope and Limitations](#scope-and-limitations)
 8. [Environment](#environment)
 9. [Acknowledgments](#acknowledgments)
-10. [References](#references)
-11. [Conclusion](#conclusion)
+10. 
+11. [References](#references)
+12. [Conclusion](#conclusion)
 
 ## Introduction
-This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship at [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi). Previously, <a href=https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc>Proxmox was installed and configured</a> on a server. Here, we will prepare a Rocky Linux golden image for cloning. A <a href=https://www.redhat.com/en/topics/linux/what-is-a-golden-image>golden image</a> serves as a baseline template for replication, reducing repetitive setup and ensuring consistency. When ready, a template will be created from the Rocky Linux image, and then cloned. <br>
+**Hello and Welcome!** <br> 
+This project is about how to configure a Rocky Linux golden image to serve as a minimal operating system base for virtual machines. This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship at [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi). Previously, <a href=https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc>Proxmox was installed and configured</a> on a server. Here, we will prepare a Rocky Linux golden image for cloning. A <a href=https://www.redhat.com/en/topics/linux/what-is-a-golden-image>golden image</a> serves as a baseline template for replication, reducing repetitive setup and ensuring consistency. When ready, a template will be created from the Rocky Linux image, and then cloned. <br>
 
 **<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>**
 
@@ -39,9 +41,51 @@ This is part of a larger ongoing Infrastructure as Code (IaC) project that will 
 The goal of this project is to build a complete IT-environment and gain a deeper understanding of the underlying components and their part in a larger production chain.
 
 ## Method
-### 3.1. Download and verify Rocky Linux
 
-#### 3.1.1. **Download Rocky Linux** <br>
+## Target Audience
+This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
+This repo is also part of a larger project aimed at people interested in learning about IaC, and building such an environment from scratch. 
+
+## Document Status
+> [!NOTE]  
+> This is a work in progress.<br>
+> This repo is part of a larger ongoing project.
+<br>
+
+## Disclaimer
+> [!CAUTION]
+> This is intended for learning, testing, and experimentation. The emphasis is not on security or creating an operational environment suitable for production.
+<br>
+
+## Scope and Limitations
+- ### Scope
+   * Instructions for installing and configuring Rocky Linux as a golden image.
+   * Instructions for how to work within Proxmox VE (9.1.1), create and manage VMs. 
+
+- ### Limitations
+   * This guide is not intended for production-grade, multi-node clusters or advanced HA setups.
+   * Hardware compatibility varies; If unsure, check <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>hardware requirements</a> before proceeding. 
+   * Network configuration is for now limited to a single-node setup and may not apply to complex environments.
+   * Instructions may become outdated as software updates; always verify with the official documentation.
+<br>
+
+## Environment
+- ### Hardware
+   - Asus PN64 ax210NGW.
+
+- ### Software
+   - RHEL was used for downloading Rocky Linux.
+   - Proxmox was used extensively in this project.
+<br>
+
+## Acknowledgments
+- We would like to thank <a href=https://github.com/rafaelurrutiasilva>Rafael Urrutia</a> for his continuous support and guidance.
+
+## Implementation
+
+### Download and verify Rocky Linux
+
+#### Download Rocky Linux <br>
 
 Instead of a regular .ISO file, we chose the generic cloud image file (.qcow2), since this is optimal for environments like Proxmox, and ideal to make templates from. 
 The current version of Rocky Linux is v10.1 and it's downloaded from the <a href=https://rockylinux.org/download>official site</a>.
@@ -52,7 +96,7 @@ Open a terminal and go to the download location:
 cd ./Downloads
 ```
 
-#### 3.1.2 **Compute the hash** <br>
+#### Compute the hash <br>
 
 This can be done with: 
 ```
@@ -64,9 +108,9 @@ Confirm with:
 sha256sum -c CHECKSUM | grep OK
 ```
 
-### 3.2. Create a Rocky Linux VM
+### Create a Rocky Linux VM
 
-#### 3.2.1 **Add the cloud image file** <br>
+#### Add the cloud image file <br>
 
 In the Proxmox web-GUI, go to Datacenter > Storage > Local <br>
 Add *Import* to Content list.
@@ -74,7 +118,7 @@ Add *Import* to Content list.
 Then go to Node > Local > Import <br>
 Upload the cloud image. 
 
-#### 3.2.2 **Create a new VM** <br>
+#### Create a new VM <br>
 
 Now create a VM by clicking the blue button *Create VM* in the topright corner. 
 
@@ -123,7 +167,7 @@ Network:
 These settings are preliminary and may be changed. Our server has an Intel® Core™ i7-12700H Processor with 14 cores, 64GB of RAM and 1TB of storage. Assigning all 14 cores to every VM may cause contention, so we'll monitor this. The lightweight version of Rocky Linux <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>requires about 1GB of RAM</a>, so 4GB should be enough for a single VM. Hard disk size is set to 10GB by default. The size may be increased later on, and is evaluated on a per-VM basis.
 
 
-#### 3.2.3 **Import Hard Disk** <br>
+#### Import Hard Disk <br>
 
 Go to the new VM > Hardware > Add > Import Hard Disk <br>
 Important Storage: local <br>
@@ -132,7 +176,7 @@ Target Storage: local-lvm
 
 Also Add > CloudInit Drive
 
-#### 3.2.4 **Cloud-init settings** <br>
+#### Cloud-init settings <br>
 
 Go to the Cloud-Init menu for the VM <br>
 Choose a username and password
@@ -149,9 +193,9 @@ Change the boot order: <br>
 Start the VM and log in.
 
 
-### 3.3 Configure Rocky Linux
+### Configure Rocky Linux
 
-#### 3.3.1 **Keyboard and Timezone** <br>
+#### Keyboard and Timezone <br>
 
 Swedish keyboard layout: 
 ```
@@ -163,7 +207,7 @@ Change Timezone:
 sudo timedatectl set-timezone Europe/Stockholm
 ```
 
-#### 3.3.2 **Update sources** <br>
+#### Update sources <br>
 
 Before updating, we change our repo sources to use a mirror provided by NSC: *mirror.nsc.liu.se* (https/433).
 This step is not necessary if you can run *dnf update* directly. For our project, we must request which resoruces we want to access over the Internet, and this is our prefered source. 
@@ -175,7 +219,7 @@ vi /etc/yum.repos.d/rocky.repo
 
 Comment out the lines beginning with mirrorlist, and replace *http://dl.rockylinux.org* with *https://mirror.nsc.liu.se* in baseurl. Also remove the comment from the baseurl lines. Save and update. 
 
-#### 3.3.3 **Install additional programs** <br>
+#### Install additional programs <br>
 
 The Rocky Linux cloud image is purposefully minimal. Though there are some programs we'll want available for every clone, and will install here. After running an update, we installed the following: <br>
 - bind-utils <br>
@@ -188,7 +232,7 @@ The Rocky Linux cloud image is purposefully minimal. Though there are some progr
 - nmap <br>
 - tmux <br>
 
-#### 3.3.4 **Change console font and size** <br>
+#### Change console font and size <br>
 
 I felt like I needed to change to fontsize so I researched and researched and finally I found where, as it turns out our tty didnt have a font to begin with so I had to set an existing font to change the font size because it was way to small so all i did was: 
 ```
@@ -197,7 +241,7 @@ sudo vi /etc/vconsole.conf
 
 and added: `FONT=sun12x22.psfu.gz`
 
-#### 3.3.5 **Add users** <br>
+#### Add users <br>
 
 We added new users for each of us and placed these in the wheel group:
 ```bash
@@ -207,13 +251,13 @@ usermod -aG wheel jonatan
 usermod -aG wheel Filip
 ```
 
-### 3.4 Firewall Configuration
+### Firewall Configuration
 
 There is a firewall at every layer in Proxmox (datacenter > node > virtual machine). At the datacenter level, security groups, aliases and IPsets can be created. A security group is a grouping of rules, which can then be quickly applied to nodes and virtual machines. An IP set groups networks and hosts, which can then be added as source and destination properties for firewall rules.
 
 This firewall will be designed to be only as permissive as it needs to be. Initially, we'll identify which protocols we need to use, and make rules for these. As the project evolves, so will the firewall, and new rules will be added later on. 
 
-#### 3.4.1 **SSH** <br>
+#### SSH <br>
 
 Go to Datacenter > Firewall > Security Group
 Create a new security group, call it something like *allow-ssh* with the following configuration:<pre>
@@ -229,7 +273,7 @@ We'll also make a copy of the rule, and set its direction to *out*.
 
 Specifications for macros can be found <a href=https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc>here</a>.
 
-#### 3.4.2 **ICMP** <br>
+#### ICMP <br>
 
 Next, we'll make a new security group for ICMP. There is no macro for ICMP, so it must be selected in the protocol field:<pre>
 Direction: in
@@ -253,7 +297,7 @@ Create a new security group, and call it something like *allow-ipv6*. This group
 - neighbour solicitation (135) out
 - neighbour advertisment (136) in
 
-#### 3.4.3 **DNS** <br>
+#### DNS <br>
 
 Go to Datacenter > Firewall > IPSet
 Create a new IP set and call it dns. Add the IP-address of your DNS-server. 
@@ -266,7 +310,8 @@ Macro: DNS
 Destination +dns
 Log level: info</pre>
 
-#### 3.4.4 **Web** <br>
+#### Web 
+<br>
 
 We create a new security group for web, and add a new rule:<pre>
 Direction: in
@@ -277,7 +322,7 @@ Log level: info</pre>
 
 Note that this macro allows both HTTP and HTTPS. Consider if a second rule for outbound web traffic will be necessary. For our lab, it will be, so we'll add it.
 
-#### 3.4.5 **NTP** <br>
+#### NTP <br>
 
 Security group for NTP, with the rule:<pre>
 Direction: out
@@ -286,7 +331,7 @@ Enable: Yes
 Macro: NTP
 Log level: info</pre>
 
-#### 3.4.6 **Block all other traffic** <br>
+#### Block all other traffic <br>
 
 The last security group will block everything else, call it something like *drop-everything* and make two new rules:<pre>
 Direction: in
@@ -303,7 +348,8 @@ Log level: info</pre>
 These rules works as a catch-all, and must be set as the last in the rule-matching order. It might be worth considering wheter to use *drop* or *reject*. 
 Reject usually gives instant feedback (connection refused instead of timeout) and is more convenient for a lab environment. Drop, however, is less prone to leak information.
 
-#### 3.4.7 **Set up Firewall**<br>
+#### Set up Firewall 
+<br>
 
 Add the security-groups to the rocky-base VM. The order we selected is: <br>
 1) allow-icmp <br>
@@ -330,18 +376,20 @@ Double-check that the firewall is enabled. If it's disabled at one level, it wil
 
 Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl, dig, nc and nmap.
 
-### 3.5 Cleaning up and finishing
+### Cleaning up and finishing
 
 The VM is almost ready to be copied. One final thing to do is cleaning up temporary and machine-specific files.
 
-#### 3.5.1 **Clear DNF/YUN cache, metadata and tmp files** <br>
+#### Clear DNF/YUN cache, metadata and tmp files
+<br>
 
 Package-manager leftovers can be cleared with this command: 
 ```
 sudo dnf clean all
 ```
 
-#### 3.5.2 **Temporary files** <br>
+#### Temporary files
+<br>
 
 Remove any files left in temporary folders:
 ```bash
@@ -349,7 +397,7 @@ sudo rm -rf /tmp/*
 sudo rm -rf /var/tmp/*
 ```
 
-#### 3.5.3 **Machine ID** <br>
+#### Machine ID** <br>
 
 Machine-id is autogenerated on installation/boot. It's used by systemd, d-bus, networkmanager, and sometimes licenses and UUID-based apps:
 ```bash
@@ -357,7 +405,8 @@ sudo truncate -s 0 /etc/machine-id
 sudo rm -f /var/lib/dbus/machine-id
 ```
 
-#### 3.5.4 **Shell history** <br>
+#### Shell history
+<br>
 
 Not strictly necessary to remove, but command history could reveal sensetive information. 
 ```bash
@@ -365,7 +414,8 @@ history -c
 rm -f ~/.bash_history
 ```
 
-#### 3.5.4 **Create Template and clones** <br>
+#### Create Template and clones 
+<br>
 
 Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones: 
 - mgmt-01
@@ -376,44 +426,8 @@ We recommend using the *Linked Clone* mode, for potential performance gain.
 
 The clones will be given new VM IDs, and new static IP addresses. That's all the setup needed in the cloning process. 
 
-## Target Audience
-This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
-This repo is also part of a larger project aimed at people interested in learning about IaC, and building such an environment from scratch. 
-
-## Document Status
-> [!NOTE]  
-> This is a work in progress.<br>
-> This repo is part of a larger ongoing project.
-<br>
-
-## Disclaimer
-> [!CAUTION]
-> This is intended for learning, testing, and experimentation. The emphasis is not on security or creating an operational environment suitable for production.
-<br>
-
-## Scope and Limitations
-- ### 7.1. Scope
-   * Instructions for installing and configuring Rocky Linux as a golden image.
-   * Instructions for how to work within Proxmox VE (9.1.1), create and manage VMs. 
-
-- ### 7.2. Limitations
-   * This guide is not intended for production-grade, multi-node clusters or advanced HA setups.
-   * Hardware compatibility varies; If unsure, check <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>hardware requirements</a> before proceeding. 
-   * Network configuration is for now limited to a single-node setup and may not apply to complex environments.
-   * Instructions may become outdated as software updates; always verify with the official documentation.
-<br>
-
-## Environment
-- ### 8.1. Hardware
-   - Asus PN64 ax210NGW.
-
-- ### 8.2. Software
-   - RHEL was used for downloading Rocky Linux.
-   - Proxmox was used extensively in this project.
-<br>
-
-## Acknowledgments
-- We would like to thank <a href=https://github.com/rafaelurrutiasilva>Rafael Urrutia</a> for his continuous support and guidance.
+## Conclusion
+The aim of this project was to prepare a Rocky Linux install to use as a golden image. We strived to keep it minimal, yet include a set of binaries that will be useful throughout the project. This project also helped us further explore Proxmox and virtualization, and we have become more familiar with these as a result. 
 
 ## References
 - [SMHI](https://www.smhi.se/en/about-smhi)
@@ -423,6 +437,3 @@ This repo is also part of a larger project aimed at people interested in learnin
 - [Proxmox Firewall Macros](https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc)
 - [Project 1: Proxmox on Nuc](https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc)
 <br>
-
-## Conclusion
-The aim of this project was to prepare a Rocky Linux install to use as a golden image. We strived to keep it minimal, yet include a set of binaries that will be useful throughout the project. This project also helped us further explore Proxmox and virtualization, and we have become more familiar with these as a result. 
