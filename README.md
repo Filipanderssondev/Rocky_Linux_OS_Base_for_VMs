@@ -15,20 +15,20 @@ Creating a Rocky Linux golden image OS base for virtual machines on a Proxmox se
 1. [Introduction](#introduction)
 2. [Goals and Objectives](#goals-and-objectives)
 3. [Method](#method) <br>
-   3.1 [Download and verify Rocky Linux](#31-download-and-verify-rocky-linux) <br>
-   3.2 [Create a Rocky Linux VM](#32-create-a-rocky-linux-vm)<br>
-   3.3 [Configure Rocky Linux](#33-configure-rocky-linux)<br>
-   3.4 [Firewall Configuration](#34-firewall-configuration)<br>
-   3.5 [Cleaning up and finishing](#35-cleaning-up-and-finishing)<br>
 4. [Target Audience](#target-audience)
 5. [Document Status](#document-status)
 6. [Disclaimer](#disclaimer)
 7. [Scope and Limitations](#scope-and-limitations)
 8. [Environment](#environment)
 9. [Acknowledgments](#acknowledgments)
-10. 
-11. [References](#references)
-12. [Conclusion](#conclusion)
+10. [Implementation](#implementation) <br>
+		[Download and verify Rocky Linux](#31-download-and-verify-rocky-linux) <br>
+		[Create a Rocky Linux VM](#32-create-a-rocky-linux-vm)<br>
+		[Configure Rocky Linux](#33-configure-rocky-linux)<br>
+		[Firewall Configuration](#34-firewall-configuration)<br>
+		[Cleaning up and finishing](#35-cleaning-up-and-finishing)<br>
+12. [References](#references)
+13. [Conclusion](#conclusion)
 
 ## Introduction
 **Hello and Welcome!** <br> 
