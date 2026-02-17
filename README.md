@@ -436,5 +436,9 @@ The aim of this project was to prepare a Rocky Linux install to use as a golden 
 - [Rocky Linux Download Page](https://rockylinux.org/download)
 - [Rocky Linux hardware requirements](https://docs.rockylinux.org/10/guides/minimum_hardware_requirements)
 - [Proxmox Firewall Macros](https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc)
-- [Project 1: Proxmox on Nuc](https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc)
 <br>
+  **Other parts in our project:** <br>
+- Part 2 - [Rocky Linux golden image for cloning](https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs)<br>
+- Part 3 - [Ansible on management VM](https://github.com/JonatanHogild/Ansible_on_management_vm)
+- Part 4 - [Container stack deployment and monitoring with ansible](https://github.com/Filipanderssondev/Container_Stack_Deployment_With_Ansible)
+- Part 5 - [FreeIPA for Virtual Enviroment](https://github.com/JonatanHogild/FreeIPA_for_virtual_environment/)
