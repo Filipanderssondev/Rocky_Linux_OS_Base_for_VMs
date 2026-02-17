@@ -27,12 +27,15 @@ Creating and configuring a Rocky Linux golden image OS base for virtual machines
 		10.3 [Configure Rocky Linux](#33-configure-rocky-linux)<br>
 		10.4 [Firewall Configuration](#34-firewall-configuration)<br>
 		10.5 [Cleaning up and finishing](#35-cleaning-up-and-finishing)<br>
-12. [References](#references)
-13. [Conclusion](#conclusion)
+12. [Conclusion](#conclusion)
+13. [References](#references) <br>
+    13.1 [Other projects in our virtual IT-enviroment](#other-projects-in-our-virtual-it-enviroment)
 
 ## Introduction
 **Welcome!** <br> 
 This project is about how to configure a Rocky Linux golden image to serve as a minimal operating system base for virtual machines. This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship at [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi). Previously, <a href=https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc>Proxmox was installed and configured</a> on a server. Here, we will prepare a Rocky Linux golden image for cloning. A <a href=https://www.redhat.com/en/topics/linux/what-is-a-golden-image>golden image</a> serves as a baseline template for replication, reducing repetitive setup and ensuring consistency. When ready, a template will be created from the Rocky Linux image, and then cloned. <br>
+
+_[Other projects in our virtual IT-enviroment](#other-projects-in-our-virtual-it-enviroment)_
 
 ## Goals and Objectives
 This is part of a larger ongoing Infrastructure as Code (IaC) project that will use Proxmox as a base, with Rocky Linux as the OS running on each virtual machine. 
@@ -433,8 +436,10 @@ The aim of this project was to prepare a Rocky Linux install to use as a golden 
 - [Rocky Linux hardware requirements](https://docs.rockylinux.org/10/guides/minimum_hardware_requirements)
 - [Proxmox Firewall Macros](https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc)
 <br>
-  **Other parts in our project:** <br>
+
+### Other projects in our virtual IT-enviroment:
 - Part 2 - [Rocky Linux golden image for cloning](https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs)<br>
 - Part 3 - [Ansible on management VM](https://github.com/JonatanHogild/Ansible_on_management_vm)
 - Part 4 - [Container stack deployment and monitoring with ansible](https://github.com/Filipanderssondev/Container_Stack_Deployment_With_Ansible)
 - Part 5 - [FreeIPA for Virtual Enviroment](https://github.com/JonatanHogild/FreeIPA_for_virtual_environment/)
+
