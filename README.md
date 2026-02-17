@@ -1,12 +1,13 @@
-# Rocky Linux Golden Image
+# Rocky Linux OS base for VMs
 <img alt="" src="https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs/blob/main/Images/rocky-linux-os-vm-base.png" allign=left><br>
 
-<br>**Authors:** _<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>_
+**Rocky Linux OS base for VMs** <br>
+**Authors:** _<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>_
 01-13-2026<br>
 
 
 ## Abstract
-Creating a Rocky Linux golden image OS base for virtual machines on a Proxmox server. <br>
+Creating and configuring a Rocky Linux golden image OS base for virtual machines on a Proxmox server. <br>
 <br>
 
 ## Table of Contents
@@ -84,8 +85,6 @@ This repo is also part of a larger project aimed at people interested in learnin
 ## Implementation
 
 ### Download and verify Rocky Linux
-
-#### Download Rocky Linux <br>
 
 Instead of a regular .ISO file, we chose the generic cloud image file (.qcow2), since this is optimal for environments like Proxmox, and ideal to make templates from. 
 The current version of Rocky Linux is v10.1 and it's downloaded from the <a href=https://rockylinux.org/download>official site</a>.
