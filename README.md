@@ -438,7 +438,7 @@ The aim of this project was to prepare a Rocky Linux install to use as a golden 
 <br>
 
 ### Other projects in our virtual IT-enviroment:
-- Project 1 - []()
+- Project 1 - [Proxmox on Nuc](https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/)
 - Project 3 - [Ansible on management VM](https://github.com/JonatanHogild/Ansible_on_management_vm)
 - Project 4 - [Container stack deployment and monitoring with ansible](https://github.com/Filipanderssondev/Container_Stack_Deployment_With_Ansible)
 - Project 5 - [FreeIPA for Virtual Enviroment](https://github.com/JonatanHogild/FreeIPA_for_virtual_environment/)
