@@ -34,14 +34,12 @@ Creating and configuring a Rocky Linux golden image OS base for virtual machines
 **Welcome!** <br> 
 This project is about how to configure a Rocky Linux golden image to serve as a minimal operating system base for virtual machines. This project is the second <a href="https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc/blob/main/Extra/Mermaid/Projects.md">in a series of projects</a>, with the goal of setting up a complete virtualized, automated, and monitored IT-Enviroment as a part of our internship at [The Swedish Meteorological and Hydrological Institute (SMHI)](https://www.smhi.se/en/about-smhi). Previously, <a href=https://github.com/rafaelurrutiasilva/Proxmox_on_Nuc>Proxmox was installed and configured</a> on a server. Here, we will prepare a Rocky Linux golden image for cloning. A <a href=https://www.redhat.com/en/topics/linux/what-is-a-golden-image>golden image</a> serves as a baseline template for replication, reducing repetitive setup and ensuring consistency. When ready, a template will be created from the Rocky Linux image, and then cloned. <br>
 
-**<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>**
-
 ## Goals and Objectives
 This is part of a larger ongoing Infrastructure as Code (IaC) project that will use Proxmox as a base, with Rocky Linux as the OS running on each virtual machine. 
 The goal of this project is to build a complete IT-environment and gain a deeper understanding of the underlying components and their part in a larger production chain.
 
 ## Method
-The project was carried out by creating a Rocky Linux base as a golden image in Proxmox. A verified cloud image was imported and installed on a VM, which was configured with the necessary system settings, updated package sources, basic utilities, and user management. Firewall rules were set up to allow only defined traffic and block all other communication. Finally, machine-specific data was cleaned, and the VM was converted into a template used to clone the remaining virtual machines in the environment.
+The solution was implemented by creating a Rocky Linux base as a golden image in Proxmox. A verified cloud image was imported and installed on a VM, which was configured with the necessary system settings, updated package sources, basic utilities, and user management. Firewall rules were set up to allow only defined traffic and block all other communication. Finally, machine-specific data was cleaned, and the VM was converted into a template used to clone the remaining virtual machines in the environment.
 
 ## Target Audience
 This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
