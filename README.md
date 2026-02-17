@@ -1,8 +1,7 @@
 # Rocky Linux Golden Image
 <img alt="" src="https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs/blob/main/Images/rocky-linux-os-vm-base.png" allign=left><br>
 
-<br>**Authors:** _<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>_<br>
-
+<br>**Authors:** _<a href="https://github.com/Filipanderssondev">Filip Andersson</a> and <a href="https://github.com/JonatanHogild">Jonatan Högild</a>_
 01-13-2026<br>
 
 
