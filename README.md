@@ -8,7 +8,6 @@
 
 ## Abstract
 Creating and configuring a Rocky Linux golden image OS base for virtual machines on a Proxmox server. <br>
-<br>
 
 ## Table of Contents
 
@@ -27,9 +26,9 @@ Creating and configuring a Rocky Linux golden image OS base for virtual machines
 		10.3 [Configure Rocky Linux](#configure-rocky-linux)<br>
 		10.4 [Firewall Configuration](#firewall-configuration)<br>
 		10.5 [Cleaning up and finishing](#cleaning-up-and-finishing)<br>
-12. [Conclusion](#conclusion)
-13. [References](#references) <br>
-    13.1 [Other projects in our virtual IT-enviroment](#other-projects-in-our-virtual-it-enviroment)
+11. [Conclusion](#conclusion)
+12. [References](#references) <br>
+    12.1 [Other projects in our virtual IT-enviroment](#other-projects-in-our-virtual-it-enviroment)
 
 ## Introduction
 **Welcome!** <br> 
@@ -46,18 +45,16 @@ An official Rocky Linux cloud image was downloaded and configured as a VM for Pr
 
 ## Target Audience
 This repo is for anyone who wants a step-by-step guide on preparing a Rocky Linux golden image for Proxmox. 
-This repo is also part of a larger project aimed at people interested in learning about IaC, and building such an environment from scratch. 
+This repo is also part of a larger project aimed at people interested in learning about IT-infrastructure, and building such an environment from scratch. 
 
 ## Document Status
 > [!NOTE]  
 > This is a completed repo.<br>
 > This repo is part of a larger ongoing project.
-<br>
 
 ## Disclaimer
 > [!CAUTION]
 > This is intended for learning, testing, and experimentation. The emphasis is not on security or creating an operational environment suitable for production.
-<br>
 
 ## Scope and Limitations
 - ### Scope
@@ -96,7 +93,7 @@ Open a terminal and go to the download location:
 cd ./Downloads
 ```
 
-#### Compute the hash <br>
+#### Compute the hash
 
 This can be done with: 
 ```
@@ -110,7 +107,7 @@ sha256sum -c CHECKSUM | grep OK
 
 ### Create a Rocky Linux VM
 
-#### Add the cloud image file <br>
+#### Add the cloud image file
 
 In the Proxmox web-GUI, go to Datacenter > Storage > Local <br>
 Add *Import* to Content list.
@@ -118,7 +115,7 @@ Add *Import* to Content list.
 Then go to Node > Local > Import <br>
 Upload the cloud image. 
 
-#### Create a new VM <br>
+#### Create a new VM
 
 Now create a VM by clicking the blue button *Create VM* in the topright corner. 
 
@@ -167,7 +164,7 @@ Network:
 These settings are preliminary and may be changed. Our server has an Intel® Core™ i7-12700H Processor with 14 cores, 64GB of RAM and 1TB of storage. Assigning all 14 cores to every VM may cause contention, so we'll monitor this. The lightweight version of Rocky Linux <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>requires about 1GB of RAM</a>, so 4GB should be enough for a single VM. Hard disk size is set to 10GB by default. The size may be increased later on, and is evaluated on a per-VM basis.
 
 
-#### Import Hard Disk <br>
+#### Import Hard Disk
 
 Go to the new VM > Hardware > Add > Import Hard Disk <br>
 Important Storage: local <br>
@@ -176,7 +173,7 @@ Target Storage: local-lvm
 
 Also Add > CloudInit Drive
 
-#### Cloud-init settings <br>
+#### Cloud-init settings
 
 Go to the Cloud-Init menu for the VM <br>
 Choose a username and password
@@ -195,7 +192,7 @@ Start the VM and log in.
 
 ### Configure Rocky Linux
 
-#### Keyboard and Timezone <br>
+#### Keyboard and Timezone
 
 Swedish keyboard layout: 
 ```
@@ -207,7 +204,7 @@ Change Timezone:
 sudo timedatectl set-timezone Europe/Stockholm
 ```
 
-#### Update sources <br>
+#### Update sources
 
 Before updating, we change our repo sources to use a mirror provided by NSC: *mirror.nsc.liu.se* (https/433).
 This step is not necessary if you can run *dnf update* directly. For our project, we must request which resoruces we want to access over the Internet, and this is our prefered source. 
@@ -219,7 +216,7 @@ vi /etc/yum.repos.d/rocky.repo
 
 Comment out the lines beginning with mirrorlist, and replace *http://dl.rockylinux.org* with *https://mirror.nsc.liu.se* in baseurl. Also remove the comment from the baseurl lines. Save and update. 
 
-#### Install additional programs <br>
+#### Install additional programs
 
 The Rocky Linux cloud image is purposefully minimal. Though there are some programs we'll want available for every clone, and will install here. After running an update, we installed the following: <br>
 - bind-utils <br>
@@ -232,16 +229,28 @@ The Rocky Linux cloud image is purposefully minimal. Though there are some progr
 - nmap <br>
 - tmux <br>
 
-#### Change console font and size <br>
+#### Change console font and size
 
-I felt like I needed to change to fontsize so I researched and researched and finally I found where, as it turns out our tty didnt have a font to begin with so I had to set an existing font to change the font size because it was way to small so all i did was: 
+We felt that the default console font size and color could use some improvements. on Rocky Linux, fonts can be changed in the */etc/vconsole.conf* file:
 ```
 sudo vi /etc/vconsole.conf
 ```
 
-and added: `FONT=sun12x22.psfu.gz`
+We added the following line: 
+```
+FONT=sun12x22.psfu.gz
+```
 
-#### Add users <br>
+Colors can be added in a profile.d script, which will execute on each login:
+```
+#!/bin/sh
+if [[ "$(tty | grep -c tty)" -gt 0 ]]; then
+ setterm -foreground green
+ setterm -background black
+fi
+```
+
+#### Add users
 
 We added new users for each of us and placed these in the wheel group:
 ```bash
@@ -257,7 +266,7 @@ There is a firewall at every layer in Proxmox (datacenter > node > virtual machi
 
 This firewall will be designed to be only as permissive as it needs to be. Initially, we'll identify which protocols we need to use, and make rules for these. As the project evolves, so will the firewall, and new rules will be added later on. 
 
-#### SSH <br>
+#### SSH
 
 Go to Datacenter > Firewall > Security Group
 Create a new security group, call it something like *allow-ssh* with the following configuration:<pre>
@@ -273,7 +282,7 @@ We'll also make a copy of the rule, and set its direction to *out*.
 
 Specifications for macros can be found <a href=https://github.com/proxmox/pve-docs/blob/master/pve-firewall-macros.adoc>here</a>.
 
-#### ICMP <br>
+#### ICMP
 
 Next, we'll make a new security group for ICMP. There is no macro for ICMP, so it must be selected in the protocol field:<pre>
 Direction: in
@@ -297,7 +306,7 @@ Create a new security group, and call it something like *allow-ipv6*. This group
 - neighbour solicitation (135) out
 - neighbour advertisment (136) in
 
-#### DNS <br>
+#### DNS
 
 Go to Datacenter > Firewall > IPSet
 Create a new IP set and call it dns. Add the IP-address of your DNS-server. 
@@ -311,7 +320,6 @@ Destination +dns
 Log level: info</pre>
 
 #### Web 
-<br>
 
 We create a new security group for web, and add a new rule:<pre>
 Direction: in
@@ -322,7 +330,7 @@ Log level: info</pre>
 
 Note that this macro allows both HTTP and HTTPS. Consider if a second rule for outbound web traffic will be necessary. For our lab, it will be, so we'll add it.
 
-#### NTP <br>
+#### NTP
 
 Security group for NTP, with the rule:<pre>
 Direction: out
@@ -331,7 +339,7 @@ Enable: Yes
 Macro: NTP
 Log level: info</pre>
 
-#### Block all other traffic <br>
+#### Block all other traffic
 
 The last security group will block everything else, call it something like *drop-everything* and make two new rules:<pre>
 Direction: in
@@ -349,7 +357,6 @@ These rules works as a catch-all, and must be set as the last in the rule-matchi
 Reject usually gives instant feedback (connection refused instead of timeout) and is more convenient for a lab environment. Drop, however, is less prone to leak information.
 
 #### Set up Firewall 
-<br>
 
 Add the security-groups to the rocky-base VM. The order we selected is: <br>
 1) allow-icmp <br>
@@ -381,7 +388,6 @@ Go into the VM to confirm that the rules work. Try commands like ping, ssh, curl
 The VM is almost ready to be copied. One final thing to do is cleaning up temporary and machine-specific files.
 
 #### Clear DNF/YUN cache, metadata and tmp files
-<br>
 
 Package-manager leftovers can be cleared with this command: 
 ```
@@ -389,7 +395,6 @@ sudo dnf clean all
 ```
 
 #### Temporary files
-<br>
 
 Remove any files left in temporary folders:
 ```bash
@@ -397,7 +402,7 @@ sudo rm -rf /tmp/*
 sudo rm -rf /var/tmp/*
 ```
 
-#### Machine ID** <br>
+#### Machine ID
 
 Machine-id is autogenerated on installation/boot. It's used by systemd, d-bus, networkmanager, and sometimes licenses and UUID-based apps:
 ```bash
@@ -406,7 +411,6 @@ sudo rm -f /var/lib/dbus/machine-id
 ```
 
 #### Shell history
-<br>
 
 Not strictly necessary to remove, but command history could reveal sensetive information. 
 ```bash
@@ -415,7 +419,6 @@ rm -f ~/.bash_history
 ```
 
 #### Create Template and clones 
-<br>
 
 Shut down the VM, then convert it to a template. This template can now be easily cloned. We'll make 3 clones: 
 - mgmt-01
