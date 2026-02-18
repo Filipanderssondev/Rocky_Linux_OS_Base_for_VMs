@@ -37,8 +37,7 @@ This project is about how to configure a Rocky Linux golden image to serve as a 
 _[Other projects in our virtual IT-enviroment](#other-projects-in-our-virtual-it-enviroment)_
 
 ## Goals and Objectives
-This is part of a larger ongoing IT-infrastructure project that will use Proxmox as a base, with Rocky Linux as the OS running on each virtual machine. 
-The goal of this project is to build a complete IT-environment and gain a deeper understanding of the underlying components and their part in a larger production chain.
+The goal of this project is to create a golden image that is suitable for replication across a production environment. The image should be lightweight, secure and ready for replication. 
 
 ## Method
 An official Rocky Linux cloud image was downloaded and configured as a VM for Proxmox. On the VM, basic system settings were configured, package sources were updated, users were added, and utilities were downloaded. Firewall rules were set up to allow only certain traffic. Finally, machine-specific data was cleaned, and the VM was converted into a template used to clone the remaining virtual machines in the environment.
@@ -57,28 +56,24 @@ This repo is also part of a larger project aimed at people interested in learnin
 > This is intended for learning, testing, and experimentation. The emphasis is not on security or creating an operational environment suitable for production.
 
 ## Scope and Limitations
-- ### Scope
-   * Instructions for installing and configuring Rocky Linux as a golden image.
-   * Instructions for how to work within Proxmox VE (9.1.1), create and manage VMs. 
-
-- ### Limitations
-   * This guide is not intended for production-grade, multi-node clusters or advanced HA setups.
-   * Hardware compatibility varies; If unsure, check <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>hardware requirements</a> before proceeding. 
-   * Network configuration is for now limited to a single-node setup and may not apply to complex environments.
-   * Instructions may become outdated as software updates; always verify with the official documentation.
-<br>
+* Instructions for installing and configuring Rocky Linux as a golden image.
+* Instructions for how to work within Proxmox VE (9.1.1), create and manage VMs.
+  
+* This guide is not intended for production-grade, multi-node clusters or advanced HA setups.
+* Hardware compatibility varies; If unsure, check <a href=https://docs.rockylinux.org/10/guides/minimum_hardware_requirements>hardware requirements</a> before proceeding. 
+* Instructions may become outdated as software updates; always verify with the official documentation.
+* Sensetive information will be withheld. This will not hinder participation in the guide.
 
 ## Environment
-- ### Hardware
-   - Asus PN64 ax210NGW.
-
-- ### Software
-   - RHEL was used for downloading Rocky Linux.
-   - Proxmox was used extensively in this project.
-<br>
+ - Asus PN64 ax210NGW
+   - Intel® Core™ i7-12700H 
+   - 1TB disk
+   - 64 GB memory
+ - Proxmox VE (9.1.1)
+ - Rocky Linux (10.1)
 
 ## Acknowledgments
-- We would like to thank <a href=https://github.com/rafaelurrutiasilva>Rafael Urrutia</a> for his continuous support and guidance.
+We would like to thank <a href=https://github.com/rafaelurrutiasilva>Rafael Urrutia</a> for his continuous support and guidance.
 
 ## Implementation
 
