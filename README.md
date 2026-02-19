@@ -48,7 +48,7 @@ This repo is also part of a larger project aimed at people interested in learnin
 
 ## Document Status
 This repository is considered complete and officially published.<br>
-Future improvements, refinements, or corrections may be introduced through controlled updates. Any changes will be versioned and documented in the commit history and/or changelog.
+Future improvements, refinements, or corrections may be introduced through controlled updates. Any changes will be versioned and documented in the commit history.
 
 ## Disclaimer
 > [!CAUTION]
