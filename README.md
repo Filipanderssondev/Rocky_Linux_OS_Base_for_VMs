@@ -1,4 +1,6 @@
 # Rocky Linux OS base for VMs
+
+<!--
 <img alt="" src="https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs/blob/main/Images/rocky-linux-os-vm-base.png" allign=left><br>
 
 **Rocky Linux OS base for VMs** <br>
@@ -8,6 +10,27 @@
 
 ## Abstract
 Creating and configuring a Rocky Linux golden image OS base for virtual machines on a Proxmox server. <br>
+-->
+
+<div>
+  <img src="https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs/blob/main/Images/rocky-linux-os-vm-base.png" width="300" align="left" />
+  <h2>Abstract</h2>
+  <p> 
+	Creating and configuring a Rocky Linux golden image OS base for virtual machines on a Proxmox server. <br>
+	<br>
+	<br>
+	<br>
+	<br>
+    <strong>Rocky Linux OS base for VMs</strong> <br>
+    <strong>Authors:</strong>
+    <i><a href="https://github.com/Filipanderssondev">Filip Andersson</a></i>
+    and
+    <i><a href="https://github.com/JonatanHogild">Jonatan Högild</a></i>
+    <br>
+    01-13-2026
+    <br clear="left"/>
+  </p>
+</div>
 
 ## Table of Contents
 
