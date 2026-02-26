@@ -16,7 +16,7 @@ Creating and configuring a Rocky Linux golden image OS base for virtual machines
   <img src="https://github.com/Filipanderssondev/Rocky_Linux_OS_Base_for_VMs/blob/main/Images/rocky-linux-os-vm-base.png" width="300" align="left" />
   <h2>Abstract</h2>
   <p> 
-	Creating and configuring a Rocky Linux golden image OS base for virtual machines on a Proxmox server. <br>
+	This project is about preparing a Rocky Linux golden image, which will then be used to create virtual machines. Here we will cover the steps involved, such as downloading the approriate image for the environment, balancing resource-usage and configuring an os base so that everything we require of a new system is prepared and ready for instant cloning. 
 	<br>
 	<br>
 	<br>
